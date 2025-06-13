@@ -1,7 +1,7 @@
 use std::path::Path;
 
 use crate::common::base::job::PrinterJobState;
-use crate::common::base::printer::PrinterState;
+use crate::common::base::printer::{PrintOptions, PrinterState};
 use crate::common::base::{job::PrinterJob, printer::Printer};
 use crate::common::traits::platform::{PlatformActions, PlatformPrinterGetters};
 
@@ -26,6 +26,7 @@ impl PlatformActions for crate::Platform {
         printer_system_name: &str,
         buffer: &[u8],
         job_name: Option<&str>,
+        _options: PrintOptions,
     ) -> Result<(), &'static str> {
         return winspool::jobs::print_buffer(printer_system_name, job_name, buffer);
     }
@@ -34,6 +35,7 @@ impl PlatformActions for crate::Platform {
         printer_system_name: &str,
         file_path: &str,
         job_name: Option<&str>,
+        _options: PrintOptions
     ) -> Result<(), &'static str> {
         let buffer = utils::file::get_file_as_bytes(file_path);
         return if buffer.is_some() {

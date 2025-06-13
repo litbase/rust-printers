@@ -13,6 +13,17 @@ pub enum PrinterState {
     UNKNOWN,
 }
 
+#[derive(PartialEq)]
+pub enum PrintOrientation {
+    Portrait,
+    Landscape
+}
+
+#[derive(Default)]
+pub struct PrintOptions {
+    pub orientation: Option<PrintOrientation>
+}
+
 /**
  * Printer is a struct to representation the system printer
  */
@@ -168,15 +179,15 @@ impl Printer {
     /**
      * Print bytes with self printer instance
      */
-    pub fn print(&self, buffer: &[u8], job_name: Option<&str>) -> Result<(), &'static str> {
-        return crate::Platform::print(self.system_name.as_str(), buffer, job_name);
+    pub fn print(&self, buffer: &[u8], job_name: Option<&str>, options: PrintOptions) -> Result<(), &'static str> {
+        return crate::Platform::print(self.system_name.as_str(), buffer, job_name, options);
     }
 
     /**
      * Print specific file with self printer instance
      */
-    pub fn print_file(&self, file_path: &str, job_name: Option<&str>) -> Result<(), &'static str> {
-        return crate::Platform::print_file(self.system_name.as_str(), file_path, job_name);
+    pub fn print_file(&self, file_path: &str, job_name: Option<&str>, options: PrintOptions) -> Result<(), &'static str> {
+        return crate::Platform::print_file(self.system_name.as_str(), file_path, job_name, options);
     }
     
     /**
